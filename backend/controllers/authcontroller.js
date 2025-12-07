@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import axios from 'axios'
+// import axios from 'axios'
 
 export const usersignup = async (req,res)=>{
     try {
@@ -20,16 +20,16 @@ export const usersignup = async (req,res)=>{
             password:hashed
         })
 
-        // n8n webhook integration
-        try {
-            await axios.post('https://sanoof-assignment.app.n8n.cloud/webhook/8381f3ce-1465-4c86-9233-8cca83ab30c7', {
-                username: user.username,
-                email: user.email,
-                signupTime: new Date()
-            });
-        } catch (err) {
-            console.log('n8n webhook error:', err.message);
-        }
+        // // n8n webhook integration
+        // try {
+        //     await axios.post('https://sanoof-assignment.app.n8n.cloud/webhook/8381f3ce-1465-4c86-9233-8cca83ab30c7', {
+        //         username: user.username,
+        //         email: user.email,
+        //         signupTime: new Date()
+        //     });
+        // } catch (err) {
+        //     console.log('n8n webhook error:', err.message);
+        // }
 
         const token = jwt.sign({id:user._id},process.env.JWT_SECRET,{expiresIn:"5d"})
         res.status(201).json({success:true,message:"User Registered",token,
